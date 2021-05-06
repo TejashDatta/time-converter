@@ -1,1 +1,2 @@
 # time-converter
+txtファイルに載っている時間を別timezoneの時間に変換するCLIツールです。

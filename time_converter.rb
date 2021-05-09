@@ -1,21 +1,26 @@
+require_relative 'simple_time'
+
 class TimeConverter
-  def initialize(argv)
-    @source_file_path = argv[0]
-    @source_timezone = argv[1]
-    @destination_timezone = argv[2]
+  def initialize(source_file_path, source_timezone, destination_timezone)
+    @source_file_path = source_file_path
+    @offset = calculate_offset(source_timezone, destination_timezone)
   end
-
+  
   def run
-    contents = File.read(@source_file_path)
-    contents = contents.gsub(/\d{1,2}:\d{2}/) { |time| convert_time(time) }
-    File.write(@source_file_path, contents)
+    File.write(
+      @source_file_path, 
+      convert_times(File.read(@source_file_path))
+    )
   end
 
-  def convert
+  private
+
+  def calculate_offset(source_timezone, destination_timezone)
+    SimpleTime.new(destination_timezone) - SimpleTime.new(source_timezone)
   end
 
-  def convert_time
-
+  def convert_times(content)
+    content.gsub(/\d{1,2}:\d{2}/) { |time| SimpleTime.new(time) + @offset }
   end
 end
 

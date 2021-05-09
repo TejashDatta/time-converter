@@ -1,5 +1,5 @@
 require_relative '../time_converter'
-require_relative '../simple_time'
+require_relative '../basic_time'
 
 describe 'TimeConverter' do
   let(:test_file_name) { 'spec_test_target.txt' }
@@ -19,7 +19,7 @@ describe 'TimeConverter' do
 
   describe 'calculate_offset' do
     it 'calculates offset correctly' do
-      expect(time_converter.send('calculate_offset', '-5:00', '+5:00')).to eq(SimpleTime.new('10:00'))
+      expect(time_converter.send('calculate_offset', '-5:00', '+5:00')).to eq(BasicTime.new('10:00'))
     end
   end
 

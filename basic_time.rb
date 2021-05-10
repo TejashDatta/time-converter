@@ -44,8 +44,7 @@ class BasicTime
   end
 
   def format_hours_to_12_hour
-    formatted_hours = @hours % 12
-    formatted_hours.zero? ? 12 : formatted_hours
+    (@hours - 1) % 12 + 1
   end
 
   def format_minutes

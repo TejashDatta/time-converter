@@ -1,7 +1,7 @@
 require_relative '../basic_time'
 
 describe 'BasicTime' do
-  describe 'initialize and parse_time' do
+  describe '#initialize and #parse_time' do
     let(:expected_hours) { 16 }
     let(:expected_minutes) { 5 }
 
@@ -17,7 +17,7 @@ describe 'BasicTime' do
     context 'when 12H time' do
       let(:basic_time) { BasicTime.new('4:05 pm') }
 
-      it 'calculates and parses 24H hours from 12H time correctly' do
+      it 'calculates and parses 24H time from 12H time correctly' do
         expect(basic_time.hours).to eq(expected_hours)
         expect(basic_time.minutes).to eq(expected_minutes)
       end
@@ -39,7 +39,7 @@ describe 'BasicTime' do
     end
   end
 
-  describe '+' do
+  describe '#+' do
     let(:operation) { :+ }
     let(:expected_result_hours) { 17 }
     let(:expected_result_minutes) { 0 }
@@ -59,7 +59,7 @@ describe 'BasicTime' do
     end 
   end
 
-  describe '-' do
+  describe '#-' do
     let(:operation) { :- }
     let(:expected_result_hours) { 9 }
     let(:expected_result_minutes) { 0 }
@@ -79,7 +79,7 @@ describe 'BasicTime' do
     end 
   end
 
-  describe 'calculate_carry' do
+  describe '#calculate_carry' do
     let(:carry_calculated_time) { BasicTime.new('-3:90').send(:calculate_carry) }
 
     it 'ensures hours > 0 and < 24 and minutes > 0 and < 60' do
@@ -91,31 +91,31 @@ describe 'BasicTime' do
   context 'output and format testing with same time' do
     let(:basic_time) { BasicTime.new('12:00') }
 
-    describe 'to_s' do
+    describe '#to_s' do
       it 'formats as 12H time' do
         expect(basic_time.to_s).to eq('12:00 PM (same day)')
       end
     end
 
-    describe 'format_hours_to_12_hour' do
+    describe '#format_hours_to_12_hour' do
       it 'converts 24H hours into 12H hours' do
         expect(basic_time.send(:format_hours_to_12_hour)).to eq(12)
       end
     end
 
-    describe 'format_minutes' do
+    describe '#format_minutes' do
       it 'ensures mintues are double digit' do
         expect(basic_time.send(:format_minutes)).to eq('00')
       end
     end
 
-    describe 'format_am_pm' do
+    describe '#format_am_pm' do
       it 'returns AM or PM based on hours' do
         expect(basic_time.send(:format_am_pm)).to eq('PM')
       end
     end
 
-    describe 'format_day_difference' do
+    describe '#format_day_difference' do
       it 'formats day difference into string explanation' do
         expect(basic_time.send(:format_day_difference)).to eq('same day')
       end

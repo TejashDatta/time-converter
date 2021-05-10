@@ -12,7 +12,7 @@ describe 'TimeConverter' do
     
     it 'writes changes in time to file' do
       expect(File.read(test_file_name)).to eq(
-        "Time 0:00 (next day) is\n12:00 (same day) meet\nat 8:00 (next day)\n"
+        "Time 12:00 AM (next day) is\n12:00 PM (same day) meet\nat 8:00 AM (next day)\n"
       )
     end
   end
@@ -26,7 +26,7 @@ describe 'TimeConverter' do
   describe 'convert_times' do
     it 'converts all times in string based on offset' do
       expect(time_converter.send(:convert_times, '10:00 18:00')).to eq(
-        '20:00 (same day) 4:00 (next day)'
+        '8:00 PM (same day) 4:00 AM (next day)'
       )
     end
   end

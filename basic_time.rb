@@ -4,8 +4,12 @@ class BasicTime
   def initialize(time_string)
     @hours = 0
     @minutes = 0
-    @day_carry = 0
+    @day_difference = 0
     parse_time(time_string)
+  end
+
+  def ==(other)
+    @hours == other.hours && @minutes == other.minutes
   end
 
   def +(other)
@@ -18,14 +22,10 @@ class BasicTime
     @hours -= other.hours
     @minutes -= other.minutes
     calculate_carry
-  end
-
-  def ==(other)
-    @hours == other.hours && @minutes == other.minutes
-  end
+  end  
 
   def to_s
-    "#{format_hours_to_12_hour}:#{format('%02d', @minutes)} #{am_pm_from_hours} (#{format_day_carry})"
+    "#{format_hours_to_12_hour}:#{format_minutes} #{format_am_pm} (#{format_day_difference})"
   end
 
   private
@@ -38,7 +38,7 @@ class BasicTime
   def calculate_carry
     @hours += @minutes / 60
     @minutes %= 60
-    @day_carry += @hours / 24
+    @day_difference += @hours / 24
     @hours %= 24
     self
   end
@@ -48,12 +48,16 @@ class BasicTime
     formatted_hours.zero? ? 12 : formatted_hours
   end
 
-  def am_pm_from_hours
+  def format_minutes
+    format('%02d', @minutes)
+  end
+
+  def format_am_pm
     @hours < 12 ? 'AM' : 'PM'
   end
 
-  def format_day_carry
-    case @day_carry
+  def format_day_difference
+    case @day_difference
     when -1 then 'previous day'
     when 0 then 'same day'
     when 1 then 'next day'
